@@ -12,8 +12,8 @@
 
 /* IO (ones column indicates floor) */
 #define INSIDE_REQ 100
-#define ELEVATOR_1_REQ 10
-#define ELEVATOR_2_REQ 20
+#define ELEVATOR1_REQ 10
+#define ELEVATOR2_REQ 20
 
 #define OUTSIDE_REQ 200
 #define UP_REQ 10

@@ -11,8 +11,8 @@
  * validated by the IO process to be given to the Dispatcher, where upon the Dispatcher
  * decides which elevator to delegate the command to e.g. floor or up/down request
  */
-CTypedPipe<int> ioAndDispatcherPipeline("ioAndDispatcherPipeline", 100);
-int pipelineWrite;
+CTypedPipe<int> ioToDispatcherPipeline("ioToDispatcherPipeline", 100);
+int req;
 
 Elevator elevator1(1);
 Elevator elevator2(2);
@@ -22,6 +22,9 @@ CMailbox ioMail();
 
 UINT __stdcall ioThread(void* args) {
 	while (1) {
+		if (ioToDispatcherPipeline.TestForData() > 0) {
+			ioToDispatcherPipeline.Read(&req);
+		}
 	}
 	return 0;
 }

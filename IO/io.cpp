@@ -8,20 +8,44 @@
  * validated by the IO process to be given to the Dispatcher, where upon the Dispatcher
  * decides which elevator to delegate the command to e.g. floor or up/down request
  */
-CTypedPipe<int> ioAndDispatcherPipeline("ioAndDispatcherPipeline", 100);
+CTypedPipe<int> ioToDispatcherPipeline("ioToDispatcherPipeline", 100);
 
-int pipelineWrite;
+int req;
 Elevator elevator1(1);
 Elevator elevator2(2);
 int elevatorStatus[3];
 
 UINT __stdcall keyboardThread(void* args) {
-	char c[2];
 	while (1) {
-		c[0] = _getch();
-		cout << c[0];
-		c[1] = _getch();
-		cout << c[1] << endl;
+		/* Acquire request from user */
+		char type = _getch();
+		cout << type;
+		int floor = _getch() - '0';
+		cout << floor << endl;
+
+		/* Parse keyboard input */
+		bool error = (type != '1') && (type != '2') && (type != 'u') && (type != 'd') || (floor < 0) || (floor > 9);
+		if (!error) {
+			if (type == '1') {
+				req += INSIDE_REQ;
+				req += ELEVATOR1_REQ;
+			}
+			else if (type == '2') {
+				req += INSIDE_REQ;
+				req += ELEVATOR2_REQ;
+			}
+			else if (type == 'u') {
+				req += OUTSIDE_REQ;
+				req += UP_REQ;
+			}
+			else if (type == 'd') {
+				req += OUTSIDE_REQ;
+				req += DOWN_REQ;
+			}
+			req += floor;
+			ioToDispatcherPipeline.Write(&req);
+			req = 0;
+		}
 	}
 	return 0;
 }
