@@ -17,12 +17,12 @@ public:
 	Elevator(int _id) {
 		id = _id;
 		if (id == 1) {
-			mutex = new CMutex("mutex1");
-			datapool = new CDataPool("datapool1", sizeof(struct elevatorData));
+			mutex = new CMutex("elevatorMutex1");
+			datapool = new CDataPool("elevatorDatapool1", sizeof(struct elevatorData));
 		}
 		else if (id == 2) {
-			mutex = new CMutex("mutex2");
-			datapool = new CDataPool("datapool2", sizeof(struct elevatorData));
+			mutex = new CMutex("elevatorMutex2");
+			datapool = new CDataPool("elevatorDatapool2", sizeof(struct elevatorData));
 		}
 		data = (struct elevatorData*)(datapool->LinkDataPool());
 
@@ -30,5 +30,15 @@ public:
 		data->status = 0;
 		data->door = 0;
 		data->floor = 0;
+	}
+	int getElevatorStatus() {
+		return 0;
+	}
+	/* Waits to make sure both Dispatcher and IO have read the last update,
+	 * then writes new data to the data pool, then signal to both Dispatcher
+	 * and IO that new data is available. Such actions would involve appropriate
+	 * reading, signaling and waiting on the appropriate semaphores.*/
+	void updateStatus() {
+		return;
 	}
 };

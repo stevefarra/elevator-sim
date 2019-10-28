@@ -7,11 +7,18 @@
 #include "..\\elevator.h"
 #include "..\\encodings.h"
 
-CTypedPipe<int> IOAndDispatcherPipeline("IOAndDispatcherPipeline", 100);
+/* Typed Pipeline between IO and Dispatcher allows incoming commands that have been
+ * validated by the IO process to be given to the Dispatcher, where upon the Dispatcher
+ * decides which elevator to delegate the command to e.g. floor or up/down request
+ */
+CTypedPipe<int> ioAndDispatcherPipeline("ioAndDispatcherPipeline", 100);
+int pipelineWrite;
 
-int elevator1Data;
-int elevator2Data;
-int pipelineRead;
+Elevator elevator1(1);
+Elevator elevator2(2);
+int elevatorStatus[3];
+
+CMailbox ioMail();
 
 UINT __stdcall ioThread(void* args) {
 	while (1) {
@@ -25,12 +32,14 @@ UINT __stdcall ioThread(void* args) {
  */
 UINT __stdcall elevator1Thread(void* args) {
 	while (1) {
+		elevatorStatus[1] = elevator1.getElevatorStatus();
 	}
 	return 0;
 }
 
 UINT __stdcall elevator2Thread(void* args) {
 	while (1) {
+		elevatorStatus[2] = elevator2.getElevatorStatus();
 	}
 	return 0;
 }

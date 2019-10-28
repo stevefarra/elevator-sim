@@ -1,3 +1,7 @@
+/* Elevator blocks waiting for a command from the dispatcher (sent
+ * via the signal / mailbox) and then execute them with a suitable
+ * time delay between each
+ */
 #pragma once
 #include "..\\rt.h"
 #include "..\\elevator.h"
@@ -5,7 +9,7 @@
 
 int main() {
 	CMailbox dispatcherMail();
-	Elevator elevator(1);
+	Elevator elevator1(1);
 
 	while (1) {
 	}
