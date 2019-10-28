@@ -26,7 +26,10 @@
     <ClInclude Include="..\rt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\elevator-sim.h">
+    <ClInclude Include="..\elevator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\encodings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

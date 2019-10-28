@@ -127,7 +127,8 @@
     <ClCompile Include="io.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\elevator-sim.h" />
+    <ClInclude Include="..\elevator.h" />
+    <ClInclude Include="..\encodings.h" />
     <ClInclude Include="..\rt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

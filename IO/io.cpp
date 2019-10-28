@@ -1,5 +1,9 @@
 #pragma once
-#include "..\\elevator-sim.h"
+#include "..\\rt.h"
+#include "..\\elevator.h"
+#include "..\\encodings.h"
+
+CTypedPipe<int> IOAndDispatcherPipeline("IOAndDispatcherPipeline", 100);
 
 int pipelineWrite;
 
@@ -26,6 +30,9 @@ int main() {
 	CThread keyboardThread(keyboardThread, ACTIVE, NULL);
 	CThread elevator1Thread(elevator1Thread, ACTIVE, NULL);
 	CThread elevator2Thread(elevator2Thread, ACTIVE, NULL);
+
+	/* Indicates dispatcher has terminated at end of simulation */
+	CMailbox dispatcherMail();
 
 	while (1) {
 	}

@@ -2,9 +2,12 @@
  * it can decide which elevator is in the best position to deal with an 
  * incoming up/down request
  */
-
 #pragma once
-#include "..\\elevator-sim.h"
+#include "..\\rt.h"
+#include "..\\elevator.h"
+#include "..\\encodings.h"
+
+CTypedPipe<int> IOAndDispatcherPipeline("IOAndDispatcherPipeline", 100);
 
 int elevator1Data;
 int elevator2Data;

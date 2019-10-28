@@ -11,13 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elevator1", "Elevator1\Elev
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elevator2", "Elevator2\Elevator2.vcxproj", "{68B90513-4052-4D20-BD3E-CB9CCB0D3D58}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF881AA1-B691-49B0-BA22-CE639097608A}"
-	ProjectSection(SolutionItems) = preProject
-		elevator-sim.h = elevator-sim.h
-		rt.cpp = rt.cpp
-		rt.h = rt.h
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
