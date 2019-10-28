@@ -1,6 +1,7 @@
 /* Elevator direction */
 #define UP 1
 #define DOWN 2
+#define IDLE 3
 
 /* Elevator status */
 #define IN_SERVICE 1

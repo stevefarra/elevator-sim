@@ -26,9 +26,9 @@ public:
 		}
 		data = (struct elevatorData*)(datapool->LinkDataPool());
 
-		data->dir = 0;
-		data->status = 0;
-		data->door = 0;
+		data->dir = IDLE;
+		data->status = IN_SERVICE;
+		data->door = OPEN;
 		data->floor = 0;
 	}
 	int getElevatorStatus() {
