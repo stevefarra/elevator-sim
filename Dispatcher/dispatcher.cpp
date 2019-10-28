@@ -1,3 +1,8 @@
+/* Dispatcher process has three threads and uses status of elevators so that
+ * it can decide which elevator is in the best position to deal with an 
+ * incoming up/down request
+ */
+
 #pragma once
 #include "..\\elevator-sim.h"
 
@@ -11,6 +16,10 @@ UINT __stdcall ioThread(void* args) {
 	return 0;
 }
 
+/* Elevator threads respond to changes in elevator status and copy that status 
+ * to local variables within Dispatcher process so that when a new command
+ * arrives, it can be dealt with immediately
+ */
 UINT __stdcall elevator1Thread(void* args) {
 	while (1) {
 	}
