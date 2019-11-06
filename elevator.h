@@ -23,27 +23,24 @@ public:
 		if (id == 1) {
 			mutex = new CMutex("elevator1Mutex");
 			datapool = new CDataPool("elevator1Datapool", sizeof(struct elevatorData));
-			dataReadSemaphore = new CSemaphore("elevator1DataReadSemaphore", 2, 2);
-			dataAvailableSemaphore = new CSemaphore("elevator1DataAvailableSemaphore", 0, 2);
+			dataReadSemaphore = new CSemaphore("elevator1DataReadSemaphore", 0, 2);
+			dataAvailableSemaphore = new CSemaphore("elevator1DataAvailableSemaphore", 2, 2);
 		}
 		else if (id == 2) {
 			mutex = new CMutex("elevator2Mutex");
 			datapool = new CDataPool("elevator2Datapool", sizeof(struct elevatorData));
-			dataReadSemaphore = new CSemaphore("elevator2DataReadSemaphore", 2, 2);
-			dataAvailableSemaphore = new CSemaphore("elevator2DataAvailableSemaphore", 0, 2);
+			dataReadSemaphore = new CSemaphore("elevator2DataReadSemaphore", 0, 2);
+			dataAvailableSemaphore = new CSemaphore("elevator2DataAvailableSemaphore", 2, 2);
 		}
 		data = (struct elevatorData*)(datapool->LinkDataPool());
 		data->dir = IDLE;
 		data->status = IN_SERVICE;
 		data->door = OPEN;
-		data->floor = 0;
+		data->floor = 1;
 	}
 
 	struct elevatorData getData() {
 		struct elevatorData dataCopy;
-		
-		MOVE_CURSOR(0, 3);
-		cout << "Here";
 
 		dataAvailableSemaphore->Wait();
 		dataCopy = *data;

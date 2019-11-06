@@ -51,41 +51,53 @@ UINT __stdcall keyboardThread(void* args) {
 	int inputLine = 1;
 	while (1) {
 		/* Acquire request from user and print it */
-		char type = _getch();
+		char cmd1 = _getch();
 		cursorMutex.Wait();
 		MOVE_CURSOR(0, inputLine);
-		cout << type;
+		cout << cmd1;
 		cursorMutex.Signal();
 
-		int floor = _getch() - '0';
+		char cmd2 = _getch();
 		cursorMutex.Wait();
 		MOVE_CURSOR(1, inputLine);
-		cout << floor;
+		cout << cmd2;
 		cursorMutex.Signal();
 		inputLine++;
 
-		/* Parse keyboard input and add it to the pipeline */
-		bool error = (type != '1') && (type != '2') && (type != 'u') && (type != 'd') || (floor < 0) || (floor > 9);
-		if (!error) {
-			if (type == '1') {
-				req += INSIDE_REQ;
-				req += ELEVATOR1_REQ;
+		if (cmd1 == 'e' && cmd2 == 'e') {
+			cursorMutex.Wait();
+			MOVE_CURSOR(0, inputLine);
+			cout << "Simulation over";
+			cursorMutex.Signal();
+			inputLine++;
+			break;
+		}
+		else {
+			char type = cmd1;
+			int floor = cmd2 - '0';
+			/* Parse keyboard input and add it to the pipeline */
+			bool error = (type != '1') && (type != '2') && (type != 'u') && (type != 'd') || (floor < 0) || (floor > 9);
+			if (!error) {
+				if (type == '1') {
+					req += INSIDE_REQ;
+					req += ELEVATOR1_REQ;
+				}
+				else if (type == '2') {
+					req += INSIDE_REQ;
+					req += ELEVATOR2_REQ;
+				}
+				else if (type == 'u') {
+					req += OUTSIDE_REQ;
+					req += UP_REQ;
+				}
+				else if (type == 'd') {
+					req += OUTSIDE_REQ;
+					req += DOWN_REQ;
+				}
+				req += floor;
+				ioToDispatcherPipeline.Write(&req);
+				req = 0;
 			}
-			else if (type == '2') {
-				req += INSIDE_REQ;
-				req += ELEVATOR2_REQ;
-			}
-			else if (type == 'u') {
-				req += OUTSIDE_REQ;
-				req += UP_REQ;
-			}
-			else if (type == 'd') {
-				req += OUTSIDE_REQ;
-				req += DOWN_REQ;
-			}
-			req += floor;
-			ioToDispatcherPipeline.Write(&req);
-			req = 0;
 		}
 	}
 	return 0;
@@ -96,13 +108,38 @@ UINT __stdcall elevator1Thread(void* args) {
 	while (1) {
 		elevator1Data = elevator1.getData();
 		cursorMutex.Wait();
-		MOVE_CURSOR(ELEVATOR_1_COL + 7, 1);
+
+		MOVE_CURSOR(ELEVATOR_1_COL + 8, 1);
 		if (elevator1Data.status == IN_SERVICE) {
 			cout << "In service";
 		}
 		else if (elevator1Data.status == OUT_OF_SERVICE) {
 			cout << "Out of service";
 		}
+
+		MOVE_CURSOR(ELEVATOR_1_COL + 6, 2);
+;		if (elevator1Data.door == OPEN) {
+			cout << "Open";
+		}
+		else if (elevator1Data.door == CLOSED) {
+			cout << "Closed";
+		}
+
+		MOVE_CURSOR(ELEVATOR_1_COL + 11, 3);
+		if (elevator1Data.dir == UP) {
+			cout << "Up";
+		}
+		else if (elevator1Data.dir == DOWN) {
+			cout << "Down";
+		}
+		else if (elevator1Data.dir == IDLE) {
+			cout << "Idle";
+		}
+
+		MOVE_CURSOR(ELEVATOR_1_COL + 7, 4);
+		cout << elevator1Data.floor;
+
+		cursorMutex.Signal();
 	}
 	return 0;
 }
@@ -111,6 +148,39 @@ UINT __stdcall elevator2Thread(void* args) {
 	struct elevatorData elevator2Data;
 	while (1) {
 		elevator2Data = elevator2.getData();
+		cursorMutex.Wait();
+
+		MOVE_CURSOR(ELEVATOR_2_COL + 8, 1);
+		if (elevator2Data.status == IN_SERVICE) {
+			cout << "In service";
+		}
+		else if (elevator2Data.status == OUT_OF_SERVICE) {
+			cout << "Out of service";
+		}
+
+		MOVE_CURSOR(ELEVATOR_2_COL + 6, 2);
+		;		if (elevator2Data.door == OPEN) {
+			cout << "Open";
+		}
+		else if (elevator2Data.door == CLOSED) {
+			cout << "Closed";
+		}
+
+		MOVE_CURSOR(ELEVATOR_2_COL + 11, 3);
+		if (elevator2Data.dir == UP) {
+			cout << "Up";
+		}
+		else if (elevator2Data.dir == DOWN) {
+			cout << "Down";
+		}
+		else if (elevator2Data.dir == IDLE) {
+			cout << "Idle";
+		}
+
+		MOVE_CURSOR(ELEVATOR_2_COL + 7, 4);
+		cout << elevator2Data.floor;
+
+		cursorMutex.Signal();
 	}
 	return 0;
 }
