@@ -58,7 +58,7 @@ public:
 		}
 		return dataCopy;
 	}
-	void goToFloor(int floor) {
+	/*void goToFloor(int floor) {
 		if (floor > data->floor) {
 			data->dir = UP;
 			data->door = CLOSED;
@@ -79,24 +79,17 @@ public:
 			data->dir = IDLE;
 			data->door = OPEN;
 		}
-	}
-	void updateData(int req) {
-		/* Decode the request */
-		int floor = req % 10;
-		req -= floor;
-		int dir = req % 100;
-		int type = req - dir;
-		
+	}*/
+	void updateData(struct elevatorData newElevatorData) {
 		/* Wait for Dispatcher and IO to read the last update */
 		dataReadDispatcherSemaphore->Wait();
 		dataReadIOSemaphore->Wait();
 
 		/* Write new data to the datapool */
-		if (type == INSIDE_REQ) {
-			goToFloor(floor);
-		}
-		else if (type == OUTSIDE_REQ) {
-		}
+		data->dir = newElevatorData.dir;
+		data->status = newElevatorData.status;
+		data->door = newElevatorData.door;
+		data->floor = newElevatorData.floor;
 
 		/* Let Dispatcher and IO know new data is available */
 		dataAvailableDispatcherSemaphore->Signal();

@@ -14,7 +14,11 @@ int main() {
 
 	while (1) {
 		req = dispatcherMail.GetMessage();
-		elevator1.updateData(req);
+
+		int floor = req % 10;
+		req -= floor;
+		int dir = req % 100;
+		int type = req - dir;
 	}
 
 	return 0;
