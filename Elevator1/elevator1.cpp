@@ -8,6 +8,7 @@
 #include "..\\encodings.h"
 
 int main() {
+	struct elevatorData elevatorData = { IDLE, IN_SERVICE, OPEN, 0 };
 	CMailbox dispatcherMail;
 	Elevator elevator1(1);
 	int req;
@@ -15,11 +16,33 @@ int main() {
 	while (1) {
 		req = dispatcherMail.GetMessage();
 
+		/* Decode request */
 		int floor = req % 10;
 		req -= floor;
 		int dir = req % 100;
 		int type = req - dir;
-	}
 
+		if (floor > elevatorData.floor) {
+			elevatorData.door = CLOSED;
+			elevatorData.dir = UP;
+		}
+		else if (floor < elevatorData.floor) {
+			elevatorData.door = CLOSED;
+			elevatorData.dir = DOWN;
+		}
+		while (floor != elevatorData.floor) {
+			if (floor > elevatorData.floor) {
+				elevatorData.floor++;
+			}
+			else if (floor < elevatorData.floor) {
+				elevatorData.floor--;
+			}
+			elevator1.updateData(elevatorData);
+			Sleep(MS_PER_FLOOR);
+		}
+		elevatorData.door = OPEN;
+		elevatorData.dir = IDLE;
+		elevator1.updateData(elevatorData);
+	}
 	return 0;
 }

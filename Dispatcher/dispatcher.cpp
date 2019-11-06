@@ -56,7 +56,7 @@ int main() {
 
 	int testReq = 111;
 	while (1) {
-		Sleep(3000);
+		Sleep(6000);
 		elevator1.Post(testReq);
 		testReq += 2;
 	}

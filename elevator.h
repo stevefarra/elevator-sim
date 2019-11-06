@@ -13,7 +13,7 @@ struct elevatorData {
 class Elevator {
 	int id;
 	CDataPool* datapool;
-	elevatorData* data;
+	struct elevatorData* data;
 	CSemaphore* dataReadDispatcherSemaphore;
 	CSemaphore* dataReadIOSemaphore;
 	CSemaphore* dataAvailableDispatcherSemaphore;

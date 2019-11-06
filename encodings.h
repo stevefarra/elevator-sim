@@ -29,4 +29,4 @@
 #define IO 1
 
 /* Elevator timing */
-#define MS_PER_FLOOR 500
+#define MS_PER_FLOOR 1000
