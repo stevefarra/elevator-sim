@@ -8,11 +8,16 @@
 #include "..\\encodings.h"
 
 int main() {
-	CMailbox dispatcherMail();
+	CMailbox dispatcherMail;
 	Elevator elevator1(1);
+	int req;
 
+	int testReq = 111;
 	while (1) {
-		elevator1.updateData();
+		//req = dispatcherMail.GetMessage();
+		Sleep(4000);
+		elevator1.updateData(testReq);
+		testReq += 2;
 	}
 
 	return 0;

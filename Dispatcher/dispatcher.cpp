@@ -54,7 +54,11 @@ int main() {
 	CThread elevator1Thread(elevator1Thread, ACTIVE, NULL);
 	CThread elevator2Thread(elevator2Thread, ACTIVE, NULL);
 
+	//int testReq = 111;
 	while (1) {
+		//Sleep(5000);
+		//elevator1.Post(testReq);
+		//testReq += 2;
 	}
 
 	return 0;

@@ -8,11 +8,10 @@
 #include "..\\encodings.h"
 
 int main() {
-	CMailbox dispatcherMail();
+	CMailbox dispatcherMail;
 	Elevator elevator2(2);
 
 	while (1) {
-		elevator2.updateData();
 	}
 
 	return 0;

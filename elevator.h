@@ -1,6 +1,7 @@
 #pragma once
 #include "rt.h"
 #include "encodings.h"
+#include <stdlib.h>
 
 struct elevatorData {
 	int dir;
@@ -11,7 +12,6 @@ struct elevatorData {
 
 class Elevator {
 	int id;
-	CMutex* mutex;
 	CDataPool* datapool;
 	elevatorData* data;
 	CSemaphore* dataReadDispatcherSemaphore;
@@ -23,7 +23,6 @@ public:
 	Elevator(int _id) {
 		id = _id;
 		if (id == 1) {
-			mutex = new CMutex("elevator1Mutex");
 			datapool = new CDataPool("elevator1Datapool", sizeof(struct elevatorData));
 
 			dataReadDispatcherSemaphore = new CSemaphore("elevator1DataReadDispatcherSemaphore", 0, 1);
@@ -32,7 +31,6 @@ public:
 			dataAvailableIOSemaphore = new CSemaphore("elevator1DataAvailableIOSemaphore", 1, 1);
 		}
 		else if (id == 2) {
-			mutex = new CMutex("elevator2Mutex");
 			datapool = new CDataPool("elevator2Datapool", sizeof(struct elevatorData));
 
 			dataReadDispatcherSemaphore = new CSemaphore("elevator2DataReadDispatcherSemaphore", 0, 1);
@@ -60,16 +58,38 @@ public:
 		}
 		return dataCopy;
 	}
-	void updateData() {
+	void goToFloor(int floor) {
+		if (floor > data->floor) {
+			data->dir = UP;
+			while (data->floor != floor) {
+				data->floor++;
+				Sleep(MS_PER_FLOOR);
+			}
+		}
+		else if (floor < data->floor) {
+			data->dir = DOWN;
+			while (data->floor != floor) {
+				data->floor--;
+				Sleep(MS_PER_FLOOR);
+			}
+		}
+	}
+	void updateData(int req) {
+		/* Decode the request */
+		int floor = req % 10;
+		req -= floor;
+		int dir = req % 100;
+		int type = req - dir;
+		
 		/* Wait for Dispatcher and IO to read the last update */
 		dataReadDispatcherSemaphore->Wait();
 		dataReadIOSemaphore->Wait();
 
 		/* Write new data to the datapool */
-		Sleep(500);
-		data->floor++;
-		if (id == 2) {
-			data->floor++;
+		if (type == INSIDE_REQ) {
+			goToFloor(floor);
+		}
+		else if (type == OUTSIDE_REQ) {
 		}
 
 		/* Let Dispatcher and IO know new data is available */

@@ -27,3 +27,6 @@
 /* Caller IDs*/
 #define DISPATCHER 0
 #define IO 1
+
+/* Elevator timing */
+#define MS_PER_FLOOR 500

@@ -13,7 +13,6 @@ int req;
 
 Elevator elevator1(1);
 Elevator elevator2(2);
-
 CMutex cursorMutex("cursorMutex");
 
 void printUI() {
@@ -109,7 +108,7 @@ UINT __stdcall elevator1Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_1_COL + 8, 1);
 		if (elevator1Data.status == IN_SERVICE) {
-			cout << "In service";
+			cout << "In service    ";
 		}
 		else if (elevator1Data.status == OUT_OF_SERVICE) {
 			cout << "Out of service";
@@ -117,7 +116,7 @@ UINT __stdcall elevator1Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_1_COL + 6, 2);
 ;		if (elevator1Data.door == OPEN) {
-			cout << "Open";
+			cout << "Open  ";
 		}
 		else if (elevator1Data.door == CLOSED) {
 			cout << "Closed";
@@ -125,7 +124,7 @@ UINT __stdcall elevator1Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_1_COL + 11, 3);
 		if (elevator1Data.dir == UP) {
-			cout << "Up";
+			cout << "Up  ";
 		}
 		else if (elevator1Data.dir == DOWN) {
 			cout << "Down";
@@ -154,7 +153,7 @@ UINT __stdcall elevator2Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 8, 1);
 		if (elevator2Data.status == IN_SERVICE) {
-			cout << "In service";
+			cout << "In service    ";
 		}
 		else if (elevator2Data.status == OUT_OF_SERVICE) {
 			cout << "Out of service";
@@ -162,7 +161,7 @@ UINT __stdcall elevator2Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 6, 2);
 		;		if (elevator2Data.door == OPEN) {
-			cout << "Open";
+			cout << "Open  ";
 		}
 		else if (elevator2Data.door == CLOSED) {
 			cout << "Closed";
@@ -170,7 +169,7 @@ UINT __stdcall elevator2Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 11, 3);
 		if (elevator2Data.dir == UP) {
-			cout << "Up";
+			cout << "Up  ";
 		}
 		else if (elevator2Data.dir == DOWN) {
 			cout << "Down";
