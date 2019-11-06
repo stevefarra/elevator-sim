@@ -12,6 +12,7 @@ int main() {
 	Elevator elevator2(2);
 
 	while (1) {
+
 	}
 
 	return 0;

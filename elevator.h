@@ -61,17 +61,23 @@ public:
 	void goToFloor(int floor) {
 		if (floor > data->floor) {
 			data->dir = UP;
+			data->door = CLOSED;
 			while (data->floor != floor) {
 				data->floor++;
 				Sleep(MS_PER_FLOOR);
 			}
+			data->dir = IDLE;
+			data->door = OPEN;
 		}
 		else if (floor < data->floor) {
 			data->dir = DOWN;
+			data->dir = CLOSED;
 			while (data->floor != floor) {
 				data->floor--;
 				Sleep(MS_PER_FLOOR);
 			}
+			data->dir = IDLE;
+			data->door = OPEN;
 		}
 	}
 	void updateData(int req) {

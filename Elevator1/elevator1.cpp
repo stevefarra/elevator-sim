@@ -12,12 +12,9 @@ int main() {
 	Elevator elevator1(1);
 	int req;
 
-	int testReq = 111;
 	while (1) {
-		//req = dispatcherMail.GetMessage();
-		Sleep(4000);
-		elevator1.updateData(testReq);
-		testReq += 2;
+		req = dispatcherMail.GetMessage();
+		elevator1.updateData(req);
 	}
 
 	return 0;
