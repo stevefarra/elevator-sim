@@ -106,7 +106,7 @@ UINT __stdcall keyboardThread(void* args) {
 UINT __stdcall elevator1Thread(void* args) {
 	struct elevatorData elevator1Data;
 	while (1) {
-		elevator1Data = elevator1.getData();
+		elevator1Data = elevator1.getDataIO();
 		cursorMutex.Wait();
 
 		MOVE_CURSOR(ELEVATOR_1_COL + 8, 1);
@@ -147,7 +147,7 @@ UINT __stdcall elevator1Thread(void* args) {
 UINT __stdcall elevator2Thread(void* args) {
 	struct elevatorData elevator2Data;
 	while (1) {
-		elevator2Data = elevator2.getData();
+		elevator2Data = elevator2.getDataIO();
 		cursorMutex.Wait();
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 8, 1);

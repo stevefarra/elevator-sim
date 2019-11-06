@@ -16,6 +16,8 @@ int req;
 
 Elevator elevator1(1);
 Elevator elevator2(2);
+struct elevatorData elevator1Data;
+struct elevatorData elevator2Data;
 
 CMailbox ioMail();
 
@@ -30,11 +32,13 @@ UINT __stdcall ioThread(void* args) {
 
 UINT __stdcall elevator1Thread(void* args) {
 	while (1) {
+		elevator1Data = elevator1.getDataIO();
 	}
 }
 
 UINT __stdcall elevator2Thread(void* args) {
 	while (1) {
+		elevator2Data = elevator2.getDataIO();
 	}
 	return 0;
 }
