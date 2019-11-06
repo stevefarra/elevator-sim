@@ -35,10 +35,10 @@ public:
 			mutex = new CMutex("elevator2Mutex");
 			datapool = new CDataPool("elevator2Datapool", sizeof(struct elevatorData));
 
-			dataReadDispatcherSemaphore = new CSemaphore("elevator2DataReadSemaphore", 0, 1);
+			dataReadDispatcherSemaphore = new CSemaphore("elevator2DataReadDispatcherSemaphore", 0, 1);
 			dataReadIOSemaphore = new CSemaphore("elevator2DataReadIOSemaphore", 0, 1);
 			dataAvailableDispatcherSemaphore = new CSemaphore("elevator2DataAvailableDispatcherSemaphore", 1, 1);
-			dataAvailableIOSemaphore = new CSemaphore("elevator2DataAvailableDispatcherSemaphore", 1, 1);
+			dataAvailableIOSemaphore = new CSemaphore("elevator2DataAvailableIOSemaphore", 1, 1);
 		}
 		data = (struct elevatorData*)(datapool->LinkDataPool());
 		data->dir = IDLE;
@@ -46,34 +46,35 @@ public:
 		data->door = OPEN;
 		data->floor = 0;
 	}
-	struct elevatorData getDataDispatcher() {
+	struct elevatorData getData(int caller) {
 		struct elevatorData dataCopy;
-
-		dataAvailableDispatcherSemaphore->Wait();
-		dataCopy = *data;
-		dataReadDispatcherSemaphore->Signal();
-
-		return dataCopy;
-	}
-	struct elevatorData getDataIO() {
-		struct elevatorData dataCopy;
-
-		dataAvailableIOSemaphore->Wait();
-		dataCopy = *data;
-		dataReadIOSemaphore->Signal();
-
+		if (caller == IO) {
+			dataAvailableIOSemaphore->Wait();
+			dataCopy = *data;
+			dataReadIOSemaphore->Signal();
+		}
+		else if (caller == DISPATCHER) {
+			dataAvailableDispatcherSemaphore->Wait();
+			dataCopy = *data;
+			dataReadDispatcherSemaphore->Signal();
+		}
 		return dataCopy;
 	}
 	void updateData() {
 		/* Wait for Dispatcher and IO to read the last update */
-		// dataReadSemaphore.Wait();
-		// dataReadSemaphore.Wait();
+		dataReadDispatcherSemaphore->Wait();
+		dataReadIOSemaphore->Wait();
 
 		/* Write new data to the datapool */
+		Sleep(500);
+		data->floor++;
+		if (id == 2) {
+			data->floor++;
+		}
 
 		/* Let Dispatcher and IO know new data is available */
-		// dataAvailableSemaphore.Signal();
-		// dataAvailableSemaphore.Signal();
+		dataAvailableDispatcherSemaphore->Signal();
+		dataAvailableIOSemaphore->Signal();
 		return;
 	}
 };

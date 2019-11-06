@@ -23,3 +23,7 @@
 /* Standard output positions */
 #define ELEVATOR_1_COL 30
 #define ELEVATOR_2_COL 60
+
+/* Caller IDs*/
+#define DISPATCHER 0
+#define IO 1

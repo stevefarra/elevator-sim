@@ -46,7 +46,6 @@ void printUI() {
 
 	cursorMutex.Signal();
 }
-
 UINT __stdcall keyboardThread(void* args) {
 	int inputLine = 1;
 	while (1) {
@@ -102,11 +101,10 @@ UINT __stdcall keyboardThread(void* args) {
 	}
 	return 0;
 }
-
 UINT __stdcall elevator1Thread(void* args) {
 	struct elevatorData elevator1Data;
 	while (1) {
-		elevator1Data = elevator1.getDataIO();
+		elevator1Data = elevator1.getData(IO);
 		cursorMutex.Wait();
 
 		MOVE_CURSOR(ELEVATOR_1_COL + 8, 1);
@@ -143,11 +141,15 @@ UINT __stdcall elevator1Thread(void* args) {
 	}
 	return 0;
 }
-
 UINT __stdcall elevator2Thread(void* args) {
 	struct elevatorData elevator2Data;
 	while (1) {
-		elevator2Data = elevator2.getDataIO();
+		elevator2Data = elevator2.getData(IO);
+
+		cursorMutex.Wait();
+		MOVE_CURSOR(0, 3);
+		cursorMutex.Signal();
+
 		cursorMutex.Wait();
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 8, 1);
@@ -184,7 +186,6 @@ UINT __stdcall elevator2Thread(void* args) {
 	}
 	return 0;
 }
-
 int main() {
 	/* Initialize the UI */
 	printUI();

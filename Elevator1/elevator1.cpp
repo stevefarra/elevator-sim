@@ -12,6 +12,7 @@ int main() {
 	Elevator elevator1(1);
 
 	while (1) {
+		elevator1.updateData();
 	}
 
 	return 0;
