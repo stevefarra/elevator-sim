@@ -2,43 +2,66 @@
 #include "rt.h"
 #include "encodings.h"
 
+struct elevatorData {
+	int dir;
+	int status;
+	int door;
+	int floor;
+};
+
 class Elevator {
 	int id;
-	struct elevatorData {
-		int dir;
-		int status;
-		int door;
-		int floor;
-	};
 	CMutex* mutex;
 	CDataPool* datapool;
 	elevatorData* data;
+	CSemaphore* dataReadSemaphore;// ("dataReadSemaphore", 2, 2);
+	CSemaphore* dataAvailableSemaphore;// ("dataAvailableSemaphore", 0, 2);
+
 public:
 	Elevator(int _id) {
 		id = _id;
 		if (id == 1) {
-			mutex = new CMutex("elevatorMutex1");
-			datapool = new CDataPool("elevatorDatapool1", sizeof(struct elevatorData));
+			mutex = new CMutex("elevator1Mutex");
+			datapool = new CDataPool("elevator1Datapool", sizeof(struct elevatorData));
+			dataReadSemaphore = new CSemaphore("elevator1DataReadSemaphore", 2, 2);
+			dataAvailableSemaphore = new CSemaphore("elevator1DataAvailableSemaphore", 0, 2);
 		}
 		else if (id == 2) {
-			mutex = new CMutex("elevatorMutex2");
-			datapool = new CDataPool("elevatorDatapool2", sizeof(struct elevatorData));
+			mutex = new CMutex("elevator2Mutex");
+			datapool = new CDataPool("elevator2Datapool", sizeof(struct elevatorData));
+			dataReadSemaphore = new CSemaphore("elevator2DataReadSemaphore", 2, 2);
+			dataAvailableSemaphore = new CSemaphore("elevator2DataAvailableSemaphore", 0, 2);
 		}
 		data = (struct elevatorData*)(datapool->LinkDataPool());
-
 		data->dir = IDLE;
 		data->status = IN_SERVICE;
 		data->door = OPEN;
 		data->floor = 0;
 	}
-	int getElevatorStatus() {
-		return 0;
+
+	struct elevatorData getData() {
+		struct elevatorData dataCopy;
+		
+		MOVE_CURSOR(0, 3);
+		cout << "Here";
+
+		dataAvailableSemaphore->Wait();
+		dataCopy = *data;
+		dataReadSemaphore->Signal();
+
+		return dataCopy;
 	}
-	/* Waits to make sure both Dispatcher and IO have read the last update,
-	 * then writes new data to the data pool, then signal to both Dispatcher
-	 * and IO that new data is available. Such actions would involve appropriate
-	 * reading, signaling and waiting on the appropriate semaphores.*/
-	void updateStatus() {
+	
+	void updateData() {
+		/* Wait for Dispatcher and IO to read the last update */
+		// dataReadSemaphore.Wait();
+		// dataReadSemaphore.Wait();
+
+		/* Write new data to the datapool */
+
+		/* Let Dispatcher and IO know new data is available */
+		// dataAvailableSemaphore.Signal();
+		// dataAvailableSemaphore.Signal();
 		return;
 	}
 };

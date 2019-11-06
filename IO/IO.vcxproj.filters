@@ -32,5 +32,8 @@
     <ClInclude Include="..\encodings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\elevatorUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

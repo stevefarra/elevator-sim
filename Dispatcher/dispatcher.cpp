@@ -6,6 +6,7 @@
 #include "..\\rt.h"
 #include "..\\elevator.h"
 #include "..\\encodings.h"
+#include "..\\elevatorUI.h"
 
 /* Typed Pipeline between IO and Dispatcher allows incoming commands that have been
  * validated by the IO process to be given to the Dispatcher, where upon the Dispatcher
@@ -16,7 +17,10 @@ int req;
 
 Elevator elevator1(1);
 Elevator elevator2(2);
-int elevatorStatus[3];
+CDataPool elevator1Datapool("elevator1Datapool", sizeof(struct elevatorData));
+CDataPool elevator2Datapool("elevator2Datapool", sizeof(struct elevatorData));
+struct elevatorData *elevator1Data;
+struct elevatorData *elevator2Data;
 
 CMailbox ioMail();
 
@@ -29,20 +33,37 @@ UINT __stdcall ioThread(void* args) {
 	return 0;
 }
 
-/* Elevator threads respond to changes in elevator status and copy that status 
- * to local variables within Dispatcher process so that when a new command
- * arrives, it can be dealt with immediately
- */
 UINT __stdcall elevator1Thread(void* args) {
+	elevator1Data = (struct elevatorData*)(elevator1Datapool.LinkDataPool());
+	int dir;
+	int status;
+	int door;
+	int floor;
 	while (1) {
-		elevatorStatus[1] = elevator1.getElevatorStatus();
+		/* When new data from the elevator is ready, update local variables */
+		// dataAvailableSemaphore.Wait();
+		dir = elevator1Data->dir;
+		status = elevator1Data->status;
+		door = elevator1Data->door;
+		floor = elevator1Data->floor;
+		// dataReadSemaphore.Signal();
 	}
-	return 0;
 }
 
 UINT __stdcall elevator2Thread(void* args) {
+	elevator2Data = (struct elevatorData*)(elevator2Datapool.LinkDataPool());
+	int dir;
+	int status;
+	int door;
+	int floor;
 	while (1) {
-		elevatorStatus[2] = elevator2.getElevatorStatus();
+		/* When new data from the elevator is ready, update local variables */
+		// dataAvailableSemaphore.Wait();
+		dir = elevator2Data->dir;
+		status = elevator2Data->status;
+		door = elevator2Data->door;
+		floor = elevator2Data->floor;
+		// dataReadSemaphore.Signal();
 	}
 	return 0;
 }

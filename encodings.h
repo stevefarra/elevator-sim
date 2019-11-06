@@ -19,3 +19,7 @@
 #define OUTSIDE_REQ 200
 #define UP_REQ 10
 #define DOWN_REQ 20
+
+/* Standard output positions */
+#define ELEVATOR_1_COL 30
+#define ELEVATOR_2_COL 60
