@@ -70,6 +70,8 @@ UINT __stdcall keyboardThread(void* args) {
 			cout << "Simulation over";
 			cursorMutex.Signal();
 			inputLine++;
+			req = TERMINATE;
+			ioToDispatcherPipeline.Write(&req);
 			break;
 		}
 		else {

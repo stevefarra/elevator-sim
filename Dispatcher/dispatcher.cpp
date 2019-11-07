@@ -51,7 +51,7 @@ int main() {
 			if (req == TERMINATE) {
 				elevator1.Post(110);
 				elevator2.Post(120);
-				while ((elevator1Data.floor != 0) && (elevator2Data.floor != 0));
+				while ((elevator1Data.floor != 0) || (elevator2Data.floor != 0));
 				break;
 			}
 
@@ -81,6 +81,5 @@ int main() {
 			}
 		}
 	}
-
 	return 0;
 }
