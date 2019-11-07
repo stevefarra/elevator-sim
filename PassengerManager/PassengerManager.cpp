@@ -3,6 +3,7 @@
 
 int main(void)
 {
+	ShowWindow(GetConsoleWindow(), SW_MINIMIZE);
 	Passenger* passengerList[80];
 	int elevator1Passengers = 0;
 	int elevator2Passengers = 0;

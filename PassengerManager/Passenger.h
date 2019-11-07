@@ -7,11 +7,13 @@ class Passenger :
 	public ActiveClass
 {
 public:
-	Passenger(int _elevatorNumber = rand() % 2+1);
+	Passenger(int _elevatorNumber = rand() % 2 + 1);
 private:
 	int main(void) override;
 
 	int elevator;
+	
+	CMutex pipelineMutex = CMutex("pipeline_mutex");
 	CTypedPipe<int> ioToDispatcherPipeline = CTypedPipe<int>("ioToDispatcherPipeline", 100);
 };
 

@@ -32,7 +32,8 @@ int Passenger::main()
 			currentFloor = rand() % 9 + 1;
 		}
 
-		requestedFloor = currentFloor - rand() % (currentFloor - 1) + 1;
+		requestedFloor = rand() % (currentFloor - 2) + 1;
+		cout << currentFloor << endl;
 	}
 	
 	
@@ -64,7 +65,13 @@ int Passenger::main()
 	// add current current floor to request
 	req += currentFloor;
 	// send request on pipeline
+
+	pipelineMutex.Wait();
 	ioToDispatcherPipeline.Write(&req);
+	pipelineMutex.Signal();
+
+	if (elevator == 2)
+		return 0;
 
 	// TODO: passenger gets into elevator
 
@@ -83,7 +90,9 @@ int Passenger::main()
 	req += requestedFloor;
 
 	// send inside request through 
+	pipelineMutex.Wait();
 	ioToDispatcherPipeline.Write(&req);
+	pipelineMutex.Signal();
 
 	return 0;
 }
