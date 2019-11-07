@@ -81,6 +81,20 @@ UINT __stdcall keyboardThread(void* args) {
 			ioToDispatcherPipeline.Write(&req);
 			break;
 		}
+		else if (cmd1 == 'd' && cmd2 == '+')
+		{
+			cursorMutex.Wait();
+			MOVE_CURSOR(0, inputLine);
+			cout << "Passengers active";
+			cursorMutex.Signal();
+			inputLine++;
+			CProcess passengerManager(
+				"..\\Debug\\PassengerManager.exe",
+				NORMAL_PRIORITY_CLASS,
+				OWN_WINDOW,
+				ACTIVE);
+			break;
+		}
 		if (cmd1 == '-') {
 			if (cmd2 == '1') {
 				elevator1Data.status == OUT_OF_SERVICE;
