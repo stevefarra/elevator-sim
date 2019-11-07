@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elevator1", "Elevator1\Elev
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elevator2", "Elevator2\Elevator2.vcxproj", "{68B90513-4052-4D20-BD3E-CB9CCB0D3D58}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PassengerManager", "PassengerManager\PassengerManager.vcxproj", "{D1325B7C-2CCD-4CB6-8A05-7C3E6F61FF2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{68B90513-4052-4D20-BD3E-CB9CCB0D3D58}.Release|x64.Build.0 = Release|x64
 		{68B90513-4052-4D20-BD3E-CB9CCB0D3D58}.Release|x86.ActiveCfg = Release|Win32
 		{68B90513-4052-4D20-BD3E-CB9CCB0D3D58}.Release|x86.Build.0 = Release|Win32
+		{D1325B7C-2CCD-4CB6-8A05-7C3E6F61FF2E}.Debug|x64.ActiveCfg = Debug|x64
+		{D1325B7C-2CCD-4CB6-8A05-7C3E6F61FF2E}.Debug|x64.Build.0 = Debug|x64
+		{D1325B7C-2CCD-4CB6-8A05-7C3E6F61FF2E}.Debug|x86.ActiveCfg = Debug|Win32
+		{D1325B7C-2CCD-4CB6-8A05-7C3E6F61FF2E}.Debug|x86.Build.0 = Debug|Win32
+		{D1325B7C-2CCD-4CB6-8A05-7C3E6F61FF2E}.Release|x64.ActiveCfg = Release|x64
+		{D1325B7C-2CCD-4CB6-8A05-7C3E6F61FF2E}.Release|x64.Build.0 = Release|x64
+		{D1325B7C-2CCD-4CB6-8A05-7C3E6F61FF2E}.Release|x86.ActiveCfg = Release|Win32
+		{D1325B7C-2CCD-4CB6-8A05-7C3E6F61FF2E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
