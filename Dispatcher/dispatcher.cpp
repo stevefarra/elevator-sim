@@ -21,12 +21,6 @@ struct elevatorData elevator2Data;
 
 CMailbox ioMail();
 
-UINT __stdcall ioThread(void* args) {
-	while (1) {
-	}
-	return 0;
-}
-
 UINT __stdcall elevator1Thread(void* args) {
 	while (1) {
 		elevator1Data = elevator1.getData(DISPATCHER);
@@ -47,15 +41,28 @@ int main() {
 	CProcess elevator2("..\\Debug\\elevator2.exe", NORMAL_PRIORITY_CLASS, PARENT_WINDOW, ACTIVE);
 
 	/* Initialize the Dispatcher threads */
-	CThread ioThread(ioThread, ACTIVE, NULL);
 	CThread elevator1Thread(elevator1Thread, ACTIVE, NULL);
 	CThread elevator2Thread(elevator2Thread, ACTIVE, NULL);
 
-	int testReq = 111;
 	while (1) {
 		if (ioToDispatcherPipeline.TestForData() > 0) {
 			ioToDispatcherPipeline.Read(&req);
-			elevator1.Post(req);
+
+			/* Decode request */
+			int reqCopy = req;
+			int floor = reqCopy % 10;
+			reqCopy -= floor;
+			int dirOrElevator = reqCopy % 100;
+			int type = reqCopy - dirOrElevator;
+
+			if (type == INSIDE_REQ) {
+				if (dirOrElevator == ELEVATOR1_REQ) {
+					elevator1.Post(req);
+				}
+				else if (dirOrElevator == ELEVATOR2_REQ) {
+					elevator2.Post(req);
+				}
+			}
 		}
 	}
 
