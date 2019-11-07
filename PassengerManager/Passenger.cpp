@@ -1,9 +1,11 @@
 #include "Passenger.h"
 
 
-Passenger::Passenger(int elevatorNumber)
+Passenger::Passenger(int _elevatorNumber)
 {
-	
+	elevator = _elevatorNumber;
+	// elevator 1 going UP
+	// elevator 2 going DOWN
 }
 
 int Passenger::main()
@@ -11,17 +13,39 @@ int Passenger::main()
 	int req = 0;
 
 	// create random passenger information
-	// const int elevator = rand() % 2 + 1; // random elevator
-	const int currentFloor = rand() % 9 + 1;
-	int requestedFloor = rand() % 9 + 1;
+	int requestedFloor;
+	int currentFloor = rand() % 9 + 1;
 
-	// in case requested floor and current floor happen to be the same increment requested floor
-	if (requestedFloor == currentFloor)
+	// for going up requestedFloor must be > currentFloor
+	if (elevator == 1)
 	{
-		requestedFloor++;
-	}
+		while (currentFloor == 9)
+		{
+			currentFloor = rand() % 9 + 1;
+		}
 
-	const int elevator = requestedFloor > currentFloor ? 1 : 2;
+		requestedFloor = currentFloor + rand() % (9 - (currentFloor+1) ) + 1;
+	} else
+	{
+		while (currentFloor == 1)
+		{
+			currentFloor = rand() % 9 + 1;
+		}
+
+		requestedFloor = currentFloor - rand() % (currentFloor - 1) + 1;
+	}
+	
+	
+	//int requestedFloor = rand() % 9 + 1;
+
+	//// in case requested floor and current floor happen to be the same increment requested floor
+	//if (requestedFloor == currentFloor)
+	//{
+	//	requestedFloor++;
+	//}
+
+	//// const int elevator = requestedFloor > currentFloor ? 1 : 2;
+
 
 	
 	// depending on requested and current floor, choose UP or DOWN command
