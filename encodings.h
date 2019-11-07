@@ -30,3 +30,6 @@
 
 /* Elevator timing */
 #define MS_PER_FLOOR 1000
+
+/* Special commands */
+#define TERMINATE 300
