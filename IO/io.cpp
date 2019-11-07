@@ -110,7 +110,7 @@ UINT __stdcall elevator1Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_1_COL + 8, 1);
 		if (elevator1Data.status == IN_SERVICE) {
-			SetConsoleTextAttribute(hConsole, 10); // bright green
+			SetConsoleTextAttribute(hConsole, 1); // bright green
 			cout << "In service    ";
 			SetConsoleTextAttribute(hConsole, 2); // green
 		}
@@ -130,10 +130,14 @@ UINT __stdcall elevator1Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_1_COL + 11, 3);
 		if (elevator1Data.dir == UP) {
+			SetConsoleTextAttribute(hConsole, 6); // yellow
 			cout << "Up  ";
+			SetConsoleTextAttribute(hConsole, 2); // green
 		}
 		else if (elevator1Data.dir == DOWN) {
+			SetConsoleTextAttribute(hConsole, 5); // purple
 			cout << "Down";
+			SetConsoleTextAttribute(hConsole, 2); // green
 		}
 		else if (elevator1Data.dir == IDLE) {
 			cout << "Idle";
@@ -159,7 +163,7 @@ UINT __stdcall elevator2Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 8, 1);
 		if (elevator2Data.status == IN_SERVICE) {
-			SetConsoleTextAttribute(hConsole, 10); // bright green
+			SetConsoleTextAttribute(hConsole, 1); // bright green
 			cout << "In service    ";
 			SetConsoleTextAttribute(hConsole, 2); // green
 
@@ -180,10 +184,14 @@ UINT __stdcall elevator2Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 11, 3);
 		if (elevator2Data.dir == UP) {
+			SetConsoleTextAttribute(hConsole, 6); // yellow
 			cout << "Up  ";
+			SetConsoleTextAttribute(hConsole, 2); // green
 		}
 		else if (elevator2Data.dir == DOWN) {
+			SetConsoleTextAttribute(hConsole, 5); // purple
 			cout << "Down";
+			SetConsoleTextAttribute(hConsole, 2); // green
 		}
 		else if (elevator2Data.dir == IDLE) {
 			cout << "Idle";
