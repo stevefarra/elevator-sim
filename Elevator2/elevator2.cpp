@@ -8,11 +8,12 @@
 #include "..\\encodings.h"
 
 int main() {
+	struct elevatorData elevatorData = { IDLE, IN_SERVICE, OPEN, 0 };
 	CMailbox dispatcherMail;
 	Elevator elevator2(2);
+	int req;
 
 	while (1) {
-
 	}
 
 	return 0;

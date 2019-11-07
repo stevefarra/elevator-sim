@@ -23,9 +23,6 @@ CMailbox ioMail();
 
 UINT __stdcall ioThread(void* args) {
 	while (1) {
-		if (ioToDispatcherPipeline.TestForData() > 0) {
-			ioToDispatcherPipeline.Read(&req);
-		}
 	}
 	return 0;
 }
@@ -56,9 +53,10 @@ int main() {
 
 	int testReq = 111;
 	while (1) {
-		Sleep(6000);
-		elevator1.Post(testReq);
-		testReq += 2;
+		if (ioToDispatcherPipeline.TestForData() > 0) {
+			ioToDispatcherPipeline.Read(&req);
+			elevator1.Post(req);
+		}
 	}
 
 	return 0;
