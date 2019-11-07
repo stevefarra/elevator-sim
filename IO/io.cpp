@@ -15,6 +15,8 @@ Elevator elevator1(1);
 Elevator elevator2(2);
 CMutex cursorMutex("cursorMutex");
 
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // get console handle
+
 void printUI() {
 	cursorMutex.Wait();
 
@@ -68,9 +70,6 @@ UINT __stdcall keyboardThread(void* args) {
 			cout << "Simulation over";
 			cursorMutex.Signal();
 			inputLine++;
-			int req = TERMINATE;
-			ioToDispatcherPipeline.Write(&req);
-			req = 0;
 			break;
 		}
 		else {
@@ -111,10 +110,14 @@ UINT __stdcall elevator1Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_1_COL + 8, 1);
 		if (elevator1Data.status == IN_SERVICE) {
-			cout << "In service";
+			SetConsoleTextAttribute(hConsole, 10); // bright green
+			cout << "In service    ";
+			SetConsoleTextAttribute(hConsole, 2); // green
 		}
 		else if (elevator1Data.status == OUT_OF_SERVICE) {
+			SetConsoleTextAttribute(hConsole, 4); // red
 			cout << "Out of service";
+			SetConsoleTextAttribute(hConsole, 2); // green
 		}
 
 		MOVE_CURSOR(ELEVATOR_1_COL + 6, 2);
@@ -156,10 +159,15 @@ UINT __stdcall elevator2Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 8, 1);
 		if (elevator2Data.status == IN_SERVICE) {
+			SetConsoleTextAttribute(hConsole, 10); // bright green
 			cout << "In service    ";
+			SetConsoleTextAttribute(hConsole, 2); // green
+
 		}
 		else if (elevator2Data.status == OUT_OF_SERVICE) {
+			SetConsoleTextAttribute(hConsole, 4); // red
 			cout << "Out of service";
+			SetConsoleTextAttribute(hConsole, 2); // green
 		}
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 6, 2);
