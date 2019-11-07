@@ -11,6 +11,12 @@
 CTypedPipe<int> ioToDispatcherPipeline("ioToDispatcherPipeline", 100);
 int req;
 
+struct elevatorData elevator1Data;
+struct elevatorData elevator2Data;
+
+bool elevator1FaultFlag = false;
+bool elevator2FaultFlag = false;
+
 Elevator elevator1(1);
 Elevator elevator2(2);
 CMutex cursorMutex("cursorMutex");
@@ -64,6 +70,7 @@ UINT __stdcall keyboardThread(void* args) {
 		cursorMutex.Signal();
 		inputLine++;
 
+		/* Check for termination */
 		if (cmd1 == 'e' && cmd2 == 'e') {
 			cursorMutex.Wait();
 			MOVE_CURSOR(0, inputLine);
@@ -73,6 +80,22 @@ UINT __stdcall keyboardThread(void* args) {
 			req = TERMINATE;
 			ioToDispatcherPipeline.Write(&req);
 			break;
+		}
+		if (cmd1 == '-') {
+			if (cmd2 == '1') {
+				elevator1Data.status == OUT_OF_SERVICE;
+			}
+			else if (cmd2 == '2') {
+				elevator2Data.status == OUT_OF_SERVICE;
+			}
+		}
+		else if (cmd1 == '+') {
+			if (cmd2 == '1') {
+				elevator1Data.status == IN_SERVICE;
+			}
+			else if (cmd2 == '2') {
+				elevator2Data.status == OUT_OF_SERVICE;
+			}
 		}
 		else {
 			char type = cmd1;
@@ -105,7 +128,6 @@ UINT __stdcall keyboardThread(void* args) {
 	return 0;
 }
 UINT __stdcall elevator1Thread(void* args) {
-	struct elevatorData elevator1Data;
 	while (1) {
 		elevator1Data = elevator1.getData(IO);
 		cursorMutex.Wait();
@@ -153,7 +175,6 @@ UINT __stdcall elevator1Thread(void* args) {
 	return 0;
 }
 UINT __stdcall elevator2Thread(void* args) {
-	struct elevatorData elevator2Data;
 	while (1) {
 		elevator2Data = elevator2.getData(IO);
 

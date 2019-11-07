@@ -49,7 +49,7 @@ int main() {
 			if (dirOrElevator == DOWN_REQ) {
 				elevatorData.door = CLOSED;
 				elevatorData.dir = DOWN;
-				while (floor != elevatorData.floor) {
+				while (floor < elevatorData.floor) {
 					elevatorData.floor--;
 					elevator2.updateData(elevatorData);
 					Sleep(MS_PER_FLOOR);
