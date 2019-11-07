@@ -153,7 +153,7 @@ UINT __stdcall elevator2Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 8, 1);
 		if (elevator2Data.status == IN_SERVICE) {
-			cout << "In service";
+			cout << "In service    ";
 		}
 		else if (elevator2Data.status == OUT_OF_SERVICE) {
 			cout << "Out of service";
@@ -161,7 +161,7 @@ UINT __stdcall elevator2Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 6, 2);
 		;		if (elevator2Data.door == OPEN) {
-			cout << "Open";
+			cout << "Open  ";
 		}
 		else if (elevator2Data.door == CLOSED) {
 			cout << "Closed";
@@ -169,7 +169,7 @@ UINT __stdcall elevator2Thread(void* args) {
 
 		MOVE_CURSOR(ELEVATOR_2_COL + 11, 3);
 		if (elevator2Data.dir == UP) {
-			cout << "Up";
+			cout << "Up  ";
 		}
 		else if (elevator2Data.dir == DOWN) {
 			cout << "Down";

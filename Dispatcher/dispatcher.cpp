@@ -55,6 +55,7 @@ int main() {
 			int dirOrElevator = reqCopy % 100;
 			int type = reqCopy - dirOrElevator;
 
+			/* Dispatcher algorithm */
 			if (type == INSIDE_REQ) {
 				if (dirOrElevator == ELEVATOR1_REQ) {
 					elevator1.Post(req);
