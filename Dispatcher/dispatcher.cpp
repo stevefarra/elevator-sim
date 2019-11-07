@@ -64,6 +64,14 @@ int main() {
 					elevator2.Post(req);
 				}
 			}
+			else if (type == OUTSIDE_REQ) {
+				if (dirOrElevator == UP_REQ) {
+					elevator1.Post(req);
+				}
+				else if (dirOrElevator == DOWN_REQ) {
+					elevator2.Post(req);
+				}
+			}
 		}
 	}
 

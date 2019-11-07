@@ -19,8 +19,8 @@ int main() {
 		/* Decode request */
 		int floor = req % 10;
 		req -= floor;
-		int dir = req % 100;
-		int type = req - dir;
+		int dirOrElevator = req % 100;
+		int type = req - dirOrElevator;
 
 		if (type == INSIDE_REQ) {
 			if (floor > elevatorData.floor) {
@@ -44,6 +44,20 @@ int main() {
 			elevatorData.door = OPEN;
 			elevatorData.dir = IDLE;
 			elevator2.updateData(elevatorData);
+		}
+		else if (type == OUTSIDE_REQ) {
+			if (dirOrElevator == DOWN_REQ) {
+				elevatorData.door = CLOSED;
+				elevatorData.dir = DOWN;
+				while (floor != elevatorData.floor) {
+					elevatorData.floor--;
+					elevator2.updateData(elevatorData);
+					Sleep(MS_PER_FLOOR);
+				}
+				elevatorData.door = OPEN;
+				elevatorData.dir = IDLE;
+				elevator2.updateData(elevatorData);
+			}
 		}
 	}
 
